@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+ attacker:
+  image: kalilinux/kali-rolling
+  container_name: hydra-attacker
+  tty: true
+  stdin_open: true
+  networks:
+   - lab-network
+
+ victim-ssh:
+  image: rastasheep/ubuntu-sshd
+  container_name: victim-ssh
+  networks:
+   - lab-network
+  environment:
+   - ROOT_PASSWORD=batata
+
+ victim-web:
+  image: vulnerables/web-dvwa
+  container_name: victim-web
+  networks:
+   - lab-network
+  ports:
+   - "8080:80"
+
+networks:
+ lab-network:
+  driver: bridge
